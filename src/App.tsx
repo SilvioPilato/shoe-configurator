@@ -9,7 +9,7 @@ export default function App() {
       <Canvas shadows>
           <spotLight intensity={0.5} angle={0.1} penumbra={1} position={[10, 15, 10]} castShadow />
           <ambientLight intensity={0.1} />
-          <Environment near={1} far={1000} resolution={256} preset="city" />
+          <Environment near={1} far={1000} resolution={256} files={"environment.hdr"} />
           <Shoe />
           <ContactShadows position={[0, -1.5, 0]} opacity={0.3} scale={10} blur={2} far={3} /> 
       </Canvas>
