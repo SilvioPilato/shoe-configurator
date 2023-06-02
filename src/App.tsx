@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Picker } from "./components/Picker";
 import Shoe from "./components/Shoe";
-import { ContactShadows, Environment, Plane, Sky, Stars } from "@react-three/drei";
+import { ContactShadows, Environment } from "@react-three/drei";
 
 export default function App() {
   return (
