@@ -1,13 +1,12 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { HexColorPicker } from "react-colorful";
 import { useSnapshot } from "valtio";
-import state, { ShowItemType } from "../store";
-import componentMap from "../utils/componentMap";
+import state from "../store";
 
 export function Picker() {
     const snap = useSnapshot(state)
-    const componentName: ShowItemType | null = snap.selected ? componentMap[snap.selected] : null;
-    const onColorChange = useCallback((color) => {
+    const componentName = snap.selected;
+    const onColorChange = useCallback((color: string) => {
       if (!snap.selected) return;
       if (!componentName) return;
       state.items[componentName] = color;
@@ -19,7 +18,7 @@ export function Picker() {
           className="picker"
           color={"#ffffff"}
         />
-        <h1>{componentName}</h1>
+        <h1 style={{textTransform: "capitalize"}}>{componentName}</h1>
       </div>
     )
   }

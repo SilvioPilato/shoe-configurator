@@ -1,13 +1,37 @@
 import { OrbitControls, useGLTF } from "@react-three/drei";
-import { ThreeElements, useFrame, ThreeEvent } from "@react-three/fiber";
+import { useFrame, ThreeEvent } from "@react-three/fiber";
 import { useCallback, useRef } from "react";
 import { useSnapshot } from "valtio"
 import state, { ShowItemType } from "../store";
 import componentMap, { ShoeComponent } from "../utils/componentMap";
+import { GLTF } from "three-stdlib";
+
+type GLTFResult = GLTF & {
+  nodes: {
+    shoe: THREE.Mesh
+    shoe_1: THREE.Mesh
+    shoe_2: THREE.Mesh
+    shoe_3: THREE.Mesh
+    shoe_4: THREE.Mesh
+    shoe_5: THREE.Mesh
+    shoe_6: THREE.Mesh
+    shoe_7: THREE.Mesh
+  }
+  materials: {
+    laces: THREE.MeshStandardMaterial
+    mesh: THREE.MeshStandardMaterial
+    caps: THREE.MeshStandardMaterial
+    inner: THREE.MeshStandardMaterial
+    sole: THREE.MeshStandardMaterial
+    stripes: THREE.MeshStandardMaterial
+    band: THREE.MeshStandardMaterial
+    patch: THREE.MeshStandardMaterial
+  }
+}
 
 export default function Shoe() {
-    const object = useGLTF("/shoe-draco.glb");
-    const ref = useRef<ThreeElements["group"]>();
+    const object = useGLTF("/shoe-draco.glb") as GLTFResult;
+    const ref = useRef<THREE.Group>(null);
     const {nodes} = object;
     const meshes = Object.values(nodes).filter(node => node.type === "Mesh");
     const snap = useSnapshot(state);
@@ -36,12 +60,12 @@ export default function Shoe() {
       >
         <OrbitControls enableZoom={false} enablePan={false} />
         {
-          meshes.map((props: any, index: number) => {
+          meshes.map((props, index: number) => {
             const name = props.name as ShoeComponent;
             const componentName: ShowItemType = componentMap[name];
             return (
               <mesh
-                onClick={onSelection(props.name)}
+                onClick={onSelection(componentName)}
                 key={index}
                 geometry = {props.geometry}
                 material = {props.material}
