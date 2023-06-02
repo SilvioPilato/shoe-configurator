@@ -1,5 +1,5 @@
 import { OrbitControls, useGLTF } from "@react-three/drei";
-import { useFrame, ThreeEvent } from "@react-three/fiber";
+import { useFrame, ThreeEvent, useThree } from "@react-three/fiber";
 import { useCallback, useRef } from "react";
 import { useSnapshot } from "valtio"
 import state, { ShowItemType } from "../store";
@@ -35,6 +35,9 @@ export default function Shoe() {
     const {nodes} = object;
     const meshes = Object.values(nodes).filter(node => node.type === "Mesh");
     const snap = useSnapshot(state);
+    useThree(({camera}) => {
+      camera.position.set(0,0,5);
+    });
     useFrame((state) => {
       if (!ref.current) return;
       const t = state.clock.getElapsedTime();
@@ -54,7 +57,6 @@ export default function Shoe() {
     return (
       <group
         ref={ref}
-        rotation={[0, -Math.PI / 4,0]}
         scale={[2,2,2]}
         onPointerMissed={onClickElsewhere}
       >
